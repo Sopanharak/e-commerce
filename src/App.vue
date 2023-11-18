@@ -1,28 +1,26 @@
 <template>
-  <div class="Box">
-    <ProductPage />
-    <CardsPageVue />
+  <div class="app">
+      <router-view />
   </div>
 </template>
 
 <script>
-import CardsPageVue from "./views/CardsPage.vue";
-import ProductPage from "./views/ProductPage.vue";
-import Buttons from "./components/Buttons.vue";
+import { RouterView } from 'vue-router';
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    ProductPage,
-    CardsPageVue,
-    Buttons,
-  },
-};
+      RouterView,
+  }
+}
+
 </script>
 
-<style scoped>
-.Box {
-  margin: auto;
-  width: 1500px;
-  /* border: 1px solid blue; */
+<style>
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
