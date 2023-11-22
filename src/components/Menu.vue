@@ -1,73 +1,65 @@
 <template>
-  <div class="container_menu">
-    
-    <div class="right_component">
-        <p>{{ text_menu }}</p>
+  <div class="Container_Menu">
+    <div class="Feature_Right">{{ Featured }}</div>
+    <div class="Menu_bar">
+      <ul>
+        <li class="active"><a href="">All</a></li>
+        <li><a href="">Milk & Dairies</a></li>
+        <li><a href="">Coffees & Tea</a></li>
+        <li><a href="">Pet Foods</a></li>
+        <li><a href="">Meats</a></li>
+        <li><a href="">Vegetables</a></li>
+        <li><a href="">Fruits</a></li>
+      </ul>
     </div>
-    <div class="left_component">
-        <p><strong>All</strong></p>
-        <p>Milks&Dairies</p>
-        <p>Coffes & Teas</p>
-        <p>Pet Foods</p>
-        <p>Meats</p>
-        <p>Vegetables</p>
-        <p>Fruits</p>
-    </div>
-    
   </div>
 </template>
 
 <script>
 export default {
-    name: 'Menu',
-    props: {
-        text_menu: {
-            type: String,
-        },
-    }
-
-}
+  name: "Menu",
+  props: ["Featured"],
+};
 </script>
 
-<style>
-
-.container_menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 1450px;
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@1,300;1,400;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600;800&family=Quicksand:wght@400;600;700&display=swap");
+.Container_Menu {
+  width: 99%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Container_Menu .Feature_Right {
+  font-family: "Quicksand", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  
+}
+.Container_Menu .Menu_bar {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+.Container_Menu .Menu_bar ul {
+  width: 750px;
+  height: 24px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 30px;
+}
+.Container_Menu .Menu_bar ul .active {
+  font-weight: 700;
+  color: rgba(9, 9, 121, 1);
+}
+.Container_Menu .Menu_bar ul li {
+  list-style: none;
+}
+.Container_Menu .Menu_bar ul li a {
+  text-decoration: none;
+  color: rgba(37, 61, 78, 1);
 }
 
-.right_component {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.right_component p {
-    font-family: Quicksand;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.left_component {
-    width: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.left_component p {
-    font-family: Quicksand;
-    font-size: 15px;
-    font-weight: normal;
-}
-
-.left_component p:hover {
-    color: rgba(208, 113, 113, 0.829);
-}
 
 </style>

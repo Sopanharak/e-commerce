@@ -1,26 +1,29 @@
+<!-- <template>
+  <h1>"This is my first VueJs project"</h1>
+</template>  -->
+
 <template>
-  <div class="app">
-      <router-view />
+  <div class="Container_Box">
+    <SuperProduct />
   </div>
 </template>
 
 <script>
-import { RouterView } from 'vue-router';
+import SuperProduct from "./views/SuperProduct.vue";
+import Menu from "./components/Menu.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-      RouterView,
-  }
-}
-
+    SuperProduct,
+    Menu,
+  },
+};
 </script>
 
 <style>
-.app {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
+.Container_Box {
+  margin: auto;
+  width: 98vw;
 }
 </style>

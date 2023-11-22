@@ -1,320 +1,215 @@
 <template>
-  <div class="container_product">
-    <div class="tag_product">
-        <TageProduct :color="tage_color" :title="tage_title" />
-    </div>
-    <div class="image_product">
-        <img :src="Image_product" alt="">
-    </div>
-    
-    <div class="wrap_info_product">
-        <div class="category_product">
-            {{ category_product }}
+  <div class="Product-Box">
+    <div class="Value" :style="{ backgroundColor: Bg_value }">{{ Value }}</div>
+    <img class="Image" :src="Img" alt="Product" />
+    <div class="Details">
+      <span class="hodo">Hodo Foods</span>
+      <div class="Title">{{ Title }}</div>
+      <div class="Reviews">
+        <div class="Star">
+          <font-awesome-icon :icon="['fas', 'star']" style="color: #fdc040" />
+          <font-awesome-icon :icon="['fas', 'star']" style="color: #fdc040" />
+          <font-awesome-icon :icon="['fas', 'star']" style="color: #fdc040" />
+          <font-awesome-icon :icon="['fas', 'star']" style="color: #fdc040" />
+          <font-awesome-icon :icon="['fas', 'star']" style="color: #cdcdcd" />
         </div>
-        <div class="name_product">
-            {{ name_product }}
+        <div class="num">(4.0)</div>
+      </div>
+      <div class="gram">500gram</div>
+      <div class="money">
+        <div class="dolla">
+          <div class="lg">{{ Supvalue }}</div>
+          <div class="sm">{{ Subvalue }}</div>
         </div>
-        <div class="rate_product">
-            
-            <svg 
-                v-for="(starCorlor) in getStarColors()" :key="starCorlor" 
-                width="12" height="12" viewBox="0 0 25 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10" :fill="starCorlor"/>
-            </svg>
-    
-            ({{ rate_product.toFixed(1)  }})
-
+        <div class="">
+          <div class="amount" @click="increaseNum()" v-if="button == true">
+            <!-- <AddButton /> -->
+            <ButtonAdd />
+          </div>
+          <div class="amount" @click="decreaseNum()" v-else><ButtonPlus /></div>
         </div>
-        <div class="des_product">
-            {{ des_product }}
-        </div>
-        <div class="wrap_price_qty">
-            <div class="price_product">
-                {{ sell_price_product }}
-                <div class="discount_price" style="margin-top: 10px;">{{ discount_price }}</div>
-            
-            </div>
-            
-            <button 
-                class="num_product" 
-                v-if="quantity === 0" 
-                @click="showInput = true; quantity = 1">Add +</button>
-            <button 
-                class="num_product" 
-                type="number" min="0" max="100"
-                v-if="showInput && quantity > 0 " 
-                :value="quantity" 
-                @input="updateQuantity($event.target.value)"
-            > 
-                <div style="margin-left: 20px;">{{ quantity }}</div>
-                
-                <div class="arrow_num_product">
-                    <!-- arrow up -->
-                    <svg 
-                       style="margin-left: 20px;" 
-                       width="15" height="15" 
-                       xmlns="http://www.w3.org/2000/svg" 
-                       viewBox="0 0 24 24"
-                       @click="increaseQuantity">
-                        <path d="M11.9997 10.8284L7.04996 15.7782L5.63574 14.364L11.9997 8L18.3637 14.364L16.9495 15.7782L11.9997 10.8284Z" fill="#3BB77E"></path>
-                    </svg>
-                    
-                    <!-- arrow down -->
-                    <svg 
-                       style="margin-left: 20px;" 
-                       width="15" height="15" 
-                       xmlns="http://www.w3.org/2000/svg" 
-                       viewBox="0 0 24 24"
-                       @click="decreaseQuantity">
-                        <path d="M11.9997 13.1714L16.9495 8.22168L18.3637 9.63589L11.9997 15.9999L5.63574 9.63589L7.04996 8.22168L11.9997 13.1714Z" fill="#3BB77E"></path>
-                    </svg>
-                </div>
-
-             </button>
-        </div>
+        <!-- <button
+          class="add"
+          :style="{ backgroundColor: Bgbtn, border: Borderbtn }">
+          <div class="text">{{ Text }}</div>
+          <div class="arrow">
+            {{ Arrow }}
+          </div>
+        </button> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
-import TageProduct from './TageProduct.vue';
+library.add(fas);
 
+import ButtonAdd from "./ButtonAdd.vue";
+import ButtonPlus from "./ButtonPlus.vue";
 export default {
-    name: 'Product',
-    props: {
-        tage_title: String,
-        tage_color: String,
-        Image_product: String,
-        category_product: String,
-        name_product: String,
-        rate_product: Number,
-        sell_price_product: Number,
-        des_product: String,
-        discount_price: String,
+  name: "Product",
+  props: [
+    "Value",
+    "Bg_value",
+    "Img",
+    "Title",
+    "Star",
+    "Supvalue",
+    "Subvalue",
+    "Bgbtn",
+    "Borderbtn",
+    "Text",
+    "Arrow",
+    "arrowup",
+    "arrowdown",
+  ],
+  components: {
+    FontAwesomeIcon,
+    ButtonAdd,
+    ButtonPlus,
+  },
+  methods: {
+    increaseNum() {
+      this.button = false;
     },
-    components: {
-        TageProduct,
+    decreaseNum() {
+      let n = document.getElementById("input_amout");
+      if (n.value == 0) {
+        this.button = true;
+      }
     },
-
-    data() {
-        return {
-            showInput: false,
-            quantity: 0,
-        }
-    },
-    
-    methods: {
-        getStarColors() {
-            let colors = [];
-            for (let i = 0; i < 5; i++) {
-                if (i < this.rate_product) {
-                    colors.push('#FDC040'); // gold color for active stars
-                } else {
-                    colors.push('#CDCDCD'); // gray color for inactive stars
-                }
-            }
-            return colors;
-        },
-        updateQuantity(value) {
-            if (value === 0) {
-                this.showInput = false;
-            } else {
-                this.showInput = true;
-                this.quantity = value;
-            }
-        },
-        increaseQuantity() {
-            this.quantity++;
-            this.showInput = true;
-        },
-
-        decreaseQuantity() {
-            if (this.quantity > 0) {
-                this.quantity--;
-            }
-            if (this.quantity === 0) {
-                this.showInput = false;
-            }
-        },
-
-    },
-
-}
+  },
+  data() {
+    return {
+      button: true,
+    };
+  },
+};
 </script>
 
-<style scope>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@1,300;1,400;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600;800&family=Quicksand:wght@400;600;700&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap');
-
-.container_product{
-    width: 274px;
-    height: 400px;
-    border: 1px solid #BCE3C9;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    position: relative;
+.Product-Box {
+  width: 288px;
+  height: 440px;
+  border: 1px solid rgba(188, 227, 201, 1);
+  border-radius: 10px;
+  font-family: "Quicksand", sans-serif;
+}
+.Value {
+  width: 58px;
+  height: 32px;
+  border-radius: 0px 30px 30px 0px;
+  padding: 10px 15px 10px 15px;
+  position: relative;
+  top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 400;
 }
 
-.container_product:hover{
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 2px solid #3BB77E;
+.Image {
+  width: 201.893px;
+  height: 144.933px;
+  position: relative;
+  top: 50px;
+  left: 37.11px;
 }
 
-.tag_product{
-    position: absolute;
-    top: 30px;
-    left: 0;
+.Details {
+  width: 255px;
+  height: 160px;
+  position: relative;
+  top: 65px;
+  left: 15px;
 }
-
-.image_product{
-    width: 220px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
+.Details .hodo {
+  font-size: 12px;
+  font-weight: 400;
 }
-
-.image_product img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-    padding-top: 50px;
+.Details .Title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 5px;
 }
-
-.category_product{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    color: #3D3D3D;
+.Details .Reviews {
+  width: 106px;
+  height: 18px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 5px;
 }
-
-.name_product{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: start;
-    color: #3D3D3D;
-    
-    margin-top: 10px;
-   
+.Details .Reviews .Star {
+  width: 72px;
+  height: 14px;
+  font-size: 10px;
+  /* border: 1px solid black; */
 }
-
-.rate_product{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    color: #3D3D3D;
-
-    margin-top: 10px;
+.Details .Reviews .num {
+  width: 24px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: 400;
 }
-
-.rate_product .star{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+.Details .gram {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 5px;
 }
-
-.des_product{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    color: #3D3D3D;
-
-    margin-top: 10px;
+.Details .money {
+  width: 260px;
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
-
-.wrap_price_qty{
-    width: 100%;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
-    margin-top: 30px;
+.Details .money .dolla {
+  width: 86px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.price_product{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 20px;
-    text-align: center;
-    color: #3BB77E;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+.Details .money .dolla .lg {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(59, 183, 126, 1);
 }
-
-.discount_price{
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: start;
-    color: #3D3D3D;
-    text-decoration-line: line-through;
+.Details .money .dolla .sm {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(126, 126, 126, 1);
+  position: relative;
+  top: 3px;
+  text-decoration: line-through;
+  margin-left: 5px;
 }
-
-.num_product{
-    width: 68px;
-    height: 30px;
-    border: 0px solid #3BB77E;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Quicksand;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 18px;
-    text-align: center;
-    color: #3BB77E;
-    
-    cursor: pointer;
-    background-color: #DEF9EC;
+.Details .add {
+  width: 75px;
+  height: 30px;
+  border-radius: 4px;
+  /* border: 1px solid rgba(59, 183, 126, 1); */
+  color: rgba(59, 183, 126, 1);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 6px;
 }
-
-.num_product:hover{
-    border: 1px solid #3BB77E;
+.Details .add .text {
+  font-size: 14px;
+  font-weight: 700;
 }
-
-.arrow_num_product{
-    display: flex;
-    flex-direction: column;
+.Details .add .arrow {
+  height: 10px;
+  font-size: 14px;
 }
-
-.wrap_info_product{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 20px;
-}
-
-
 </style>
